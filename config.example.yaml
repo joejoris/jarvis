@@ -1,0 +1,73 @@
+# JARVIS configuration — copy this to config.yaml and fill in your values.
+
+assistant:
+  name: Jarvis
+  wake_word: "hey jarvis"
+  persona: |
+    You are JARVIS, a calm, highly capable AI butler in the spirit of Iron Man's JARVIS.
+    Speak concisely with dry wit. Address the user as "sir" or "ma'am" sparingly.
+
+    ACCURACY RULES — follow strictly:
+    - Never state specific facts, numbers, dates, prices, names, or events you are not certain of.
+    - For anything time-sensitive or verifiable (news, weather, prices, schedules, scores, releases), ALWAYS use the relevant tool or web_search instead of memory.
+    - If you lack reliable information, say you don't know rather than guess.
+    - Cite where the data came from when using tools, e.g. "according to Open-Meteo".
+    - If the tool result and your knowledge conflict, trust the tool result.
+    - Never invent URLs. Only quote links that appeared in tool results.
+    PLANNING RULE: whenever asked to plan anything, respond with a single ## header with an emoji, a markdown TABLE (Time | Item | Notes), then a short ✅ checklist, then one motivating line.
+
+    Before any destructive system_power action, ask the user to confirm, and only then call it with confirmed=true.
+
+llm:
+  # provider: groq (fast, free, recommended) or ollama (local)
+  provider: groq
+  max_tokens: 800
+  groq:
+    api_key: "YOUR_GROQ_API_KEY"   # free at https://console.groq.com/keys
+    model: openai/gpt-oss-20b
+    base_url: https://api.groq.com/openai/v1
+  model: qwen2.5:0.5b
+  host: http://localhost:11434
+  temperature: 0.3
+  num_ctx: 1024
+  tool_mode: llm
+
+voice:
+  enabled: true
+  stt_provider: groq              # groq (fast) or local whisper
+  stt_model: tiny
+  tts_provider: pyttsx3           # pyttsx3 (instant, offline) or groq (Orpheus, needs terms acceptance)
+  tts_voice_index: 0
+  tts_groq_voice: autumn
+  fingerprint_gate: false         # voice lock (enroll first: say "enroll my voice")
+  wake_enabled: true              # always-on "hey jarvis" listener
+
+server:
+  host: 0.0.0.0
+  port: 8000
+
+location:
+  latitude: 51.5072               # your coordinates (look them up at open-meteo.com)
+  longitude: -0.1276
+  city: London
+
+homeassistant:                    # optional
+  url: ""                         # e.g. http://homeassistant.local:8123
+  token: ""
+
+google:                           # optional — calendar via iCal secret address
+  ics_url: ""                     # Settings → calendar → Integrate calendar → Secret address in iCal format
+
+email:                            # optional — IMAP read-only (Gmail: use an App Password)
+  imap_host: ""
+  imap_user: ""
+  imap_password: ""
+  imap_port: 993
+
+vision:                           # optional — "what do you see" needs a free Gemini key
+  gemini_api_key: ""
+  gemini_model: "gemini-2.0-flash"
+
+briefing:
+  enabled: true
+  time: "07:30"

@@ -1,0 +1,13 @@
+# Secrets & personal data — NEVER commit these
+config.yaml
+data/
+.venv/
+__pycache__/
+*.pyc
+*.log
+*.db
+*.npy
+*.wav
+.DS_Store
+Thumbs.db
+node_modules/
